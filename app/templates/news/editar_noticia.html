@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Editar Notícia{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1>Editar Notícia: {{ noticia.titulo }}</h1>
+        
+        <form method="POST" enctype="multipart/form-data" class="mt-4">
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título:</label>
+                <input type="text" class="form-control" id="titulo" name="titulo" value="{{ noticia.titulo }}" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="data_noticia" class="form-label">Data da Notícia:</label>
+                <input type="date" class="form-control" id="data_noticia" name="data_noticia" value="{{ noticia.data_noticia }}" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="texto" class="form-label">Texto da Notícia:</label>
+                <textarea class="form-control" id="texto" name="texto" rows="6" required>{{ noticia.texto }}</textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="imagem" class="form-label">Imagem:</label>
+                {% if noticia.imagem %}
+                    <div class="mb-2">
+                        <img src="{{ url_for('static', filename='images/' + noticia.imagem) }}" alt="{{ noticia.titulo }}" style="max-width: 200px;">
+                    </div>
+                {% endif %}
+                <input type="file" class="form-control" id="imagem" name="imagem" accept="image/*">
+                <small class="text-muted">Deixar em branco para manter a imagem atual</small>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Atualizar Notícia</button>
+            <a href="{{ url_for('news.listar_noticias_admin') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

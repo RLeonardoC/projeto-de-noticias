@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Novo Usuário{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1>Criar Novo Usuário</h1>
+        
+        <form method="POST" class="mt-4">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" class="form-control" id="nome" name="nome" required autofocus>
+            </div>
+            
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="password" class="form-label">Senha:</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo de Usuário:</label>
+                <select class="form-control" id="tipo" name="tipo">
+                    <option value="comum">Comum</option>
+                    <option value="admin">Administrador</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Criar Usuário</button>
+            <a href="{{ url_for('admin.usuarios') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

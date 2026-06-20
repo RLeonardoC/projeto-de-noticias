@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Página Inicial - Sistema de Notícias{% endblock %}
+
+{% block content %}
+<div class="jumbotron bg-light p-5 rounded">
+    <h1 class="display-4">Bem-vindo!</h1>
+    <p class="lead">Explore as últimas notícias do nosso sistema.</p>
+</div>
+
+<h2 class="mt-5 mb-4">Notícias em Destaque</h2>
+
+{% if noticias_destaque %}
+    <div class="row">
+        {% for noticia in noticias_destaque %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    {% if noticia.imagem %}
+                        <img src="{{ url_for('static', filename='images/' + noticia.imagem) }}" class="card-img-top" alt="{{ noticia.titulo }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="card-img-top bg-secondary" style="height: 200px;"></div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ noticia.titulo }}</h5>
+                        <p class="card-text text-muted">{{ noticia.data_noticia.strftime('%d/%m/%Y') }}</p>
+                        <p class="card-text">{{ noticia.texto[:100] }}...</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('news.detalhes_noticia', noticia_id=noticia.id) }}" class="btn btn-sm btn-primary">Ler Mais</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+        <a href="{{ url_for('news.listar_noticias') }}" class="btn btn-outline-primary">Ver Todas as Notícias</a>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        Nenhuma notícia disponível no momento.
+    </div>
+{% endif %}
+{% endblock %}

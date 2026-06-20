@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Notícias - Sistema de Notícias{% endblock %}
+
+{% block content %}
+<h1>Todas as Notícias</h1>
+
+{% if noticias %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Título</th>
+                    <th>Data</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for noticia in noticias %}
+                    <tr>
+                        <td>{{ noticia.titulo }}</td>
+                        <td>{{ noticia.data_noticia.strftime('%d/%m/%Y') }}</td>
+                        <td>
+                            <a href="{{ url_for('news.detalhes_noticia', noticia_id=noticia.id) }}" class="btn btn-sm btn-primary">Ver</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info mt-3">
+        Nenhuma notícia disponível no momento.
+    </div>
+{% endif %}
+{% endblock %}

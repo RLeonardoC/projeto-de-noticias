@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Dashboard{% endblock %}
+
+{% block content %}
+<h1>Dashboard Administrativo</h1>
+
+<div class="row mt-4">
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Usuários</h5>
+                <p class="card-text display-4">{{ users | length }}</p>
+            </div>
+            <a href="{{ url_for('admin.usuarios') }}" class="card-footer bg-dark text-white text-decoration-none">Ver usuários →</a>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Ações Rápidas</h5>
+                <p class="card-text"><a href="{{ url_for('admin.novo_usuario') }}" class="text-white">Novo usuário</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Últimos Usuários</h2>
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Tipo</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users[:5] %}
+            <tr>
+                <td>{{ user.nome }}</td>
+                <td>{{ user.email }}</td>
+                <td><span class="badge bg-{% if user.is_admin() %}danger{% else %}secondary{% endif %}">{{ user.tipo }}</span></td>
+                <td>
+                    {% if user.ativo %}
+                        <span class="badge bg-success">Ativo</span>
+                    {% else %}
+                        <span class="badge bg-danger">Desativado</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

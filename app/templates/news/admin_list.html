@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Notícias{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Gerenciar Notícias</h1>
+    <a href="{{ url_for('news.nova_noticia') }}" class="btn btn-primary">+ Nova Notícia</a>
+</div>
+
+{% if noticias %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Título</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for noticia in noticias %}
+                    <tr>
+                        <td>{{ noticia.titulo }}</td>
+                        <td>{{ noticia.data_noticia.strftime('%d/%m/%Y') }}</td>
+                        <td>
+                            {% if noticia.ativo %}
+                                <span class="badge bg-success">Ativa</span>
+                            {% else %}
+                                <span class="badge bg-danger">Desativada</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('news.detalhes_noticia', noticia_id=noticia.id) }}" class="btn btn-sm btn-info" target="_blank">Ver</a>
+                            <a href="{{ url_for('news.editar_noticia', noticia_id=noticia.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                            {% if noticia.ativo %}
+                                <form method="POST" action="{{ url_for('news.desativar_noticia', noticia_id=noticia.id) }}" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Desativar esta notícia?')">Desativar</button>
+                                </form>
+                            {% else %}
+                                <form method="POST" action="{{ url_for('news.ativar_noticia', noticia_id=noticia.id) }}" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-success">Ativar</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        Nenhuma notícia cadastrada.
+    </div>
+{% endif %}
+{% endblock %}
