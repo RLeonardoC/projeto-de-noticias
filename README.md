@@ -1,4 +1,4 @@
-# 📰 Sistema Web com Controle de Acesso e Testes de Software
+#  Sistema Web com Controle de Acesso e Testes de Software
 
 **Trabalho Prático** - Disciplina: Verificação, validação e teste de software  
 **Instituição**: UniDomBosco  
@@ -7,7 +7,7 @@
 
 ---
 
-## 📋 Sobre o Projeto
+##  Sobre o Projeto
 
 Sistema web completo desenvolvido em **Python com Flask**, incluindo:
 
@@ -19,7 +19,7 @@ Sistema web completo desenvolvido em **Python com Flask**, incluindo:
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 - **Backend**: Flask 2.3.3 (Python)
 - **Banco de Dados**: MySQL
@@ -30,7 +30,7 @@ Sistema web completo desenvolvido em **Python com Flask**, incluindo:
 
 ---
 
-## 📦 Instalação e Configuração
+##  Instalação e Configuração
 
 ### 1. Pré-requisitos
 
@@ -99,7 +99,7 @@ A aplicação estará disponível em: **http://localhost:5000**
 
 ---
 
-## 🔐 Credenciais de Teste
+##  Credenciais de Teste
 
 ### Usuário Administrador
 
@@ -117,7 +117,7 @@ Senha: (verifique no banco de dados)
 
 ---
 
-## 📁 Estrutura do Projeto
+##  Estrutura do Projeto
 
 ```
 news-system/
@@ -163,7 +163,7 @@ news-system/
 
 ---
 
-## 🧪 Testes de Software
+##  Testes de Software
 
 ### Como Executar os Testes
 
@@ -282,7 +282,7 @@ Passo 7: Verificando se notícia desapareceu da página pública...
 
 ---
 
-## 🎯 Funcionalidades Implementadas
+##  Funcionalidades Implementadas
 
 ### 1. Controle de Acesso (Login)
 
@@ -323,7 +323,7 @@ Passo 7: Verificando se notícia desapareceu da página pública...
 
 ---
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 ### Erro: "No module named 'pymysql'"
 
@@ -351,7 +351,7 @@ Adicionar ao PATH ou colocar na pasta do projeto
 
 ---
 
-## 📊 Cobertura de Testes
+##  Cobertura de Testes
 
 | Módulo | Cobertura | Status |
 |--------|-----------|--------|
@@ -364,7 +364,7 @@ Adicionar ao PATH ou colocar na pasta do projeto
 
 ---
 
-## 📝 Dificuldades Encontradas
+##  Dificuldades Encontradas
 
 ### 1. Integração MySQL com Flask
 
@@ -388,7 +388,7 @@ Adicionar ao PATH ou colocar na pasta do projeto
 
 ---
 
-## 🚀 Como Executar Tudo (Resumo)
+##  Como Executar Tudo (Resumo)
 
 ```bash
 # 1. Instalar dependências
@@ -411,7 +411,7 @@ pytest tests/test_e2e.py -v -s
 
 ---
 
-## 📄 Scripts SQL
+##  Scripts SQL
 
 ### Criar o banco de dados
 
@@ -428,7 +428,7 @@ mysql -u root -p < sql/schema.sql
 
 ---
 
-## 🎓 Critérios de Avaliação
+##  Critérios de Avaliação
 
 | Critério | Peso | Status |
 |----------|------|--------|
@@ -443,24 +443,10 @@ mysql -u root -p < sql/schema.sql
 
 ---
 
-## 📞 Suporte
-
-Para dúvidas ou problemas, consulte o professor durante o período de desenvolvimento.
-
----
-
-## 📅 Cronograma de Entregas
-
-- **02 de junho** - Apresentação prévia (login/acesso)
-- **16 de junho** - Apresentação prévia (notícias/testes)
-- **23 de junho** - Entrega final
-
----
-
-## 📄 Licença
+##  Licença
 
 Trabalho acadêmico - UniDomBosco (2026)
 
 ---
 
-**Desenvolvido com ❤️ para o trabalho prático de Verificação, Validação e Teste de Software**
+
