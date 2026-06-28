@@ -76,7 +76,7 @@ class TestAdminAccess:
         response = client.get('/admin/', follow_redirects=True)
         
         assert response.status_code == 200
-        assert b'permissão' in response.data.lower() or b'não tem' in response.data.lower()
+        assert 'permissão' in response.data.decode().lower() or 'não tem' in response.data.decode().lower()
     
     def test_common_user_cannot_access_users_list(self, client):
         """Teste 2.3: Usuário comum tenta acessar lista de usuários"""
@@ -88,7 +88,7 @@ class TestAdminAccess:
         response = client.get('/admin/usuarios', follow_redirects=True)
         
         assert response.status_code == 200
-        assert b'permissão' in response.data.lower() or b'não tem' in response.data.lower()
+        assert 'permissão' in response.data.decode().lower() or 'não tem' in response.data.decode().lower()
     
     def test_admin_user_can_access_admin_dashboard(self, client):
         """
@@ -141,7 +141,7 @@ class TestAdminAccess:
         response = client.get('/admin/usuarios/novo', follow_redirects=True)
         
         assert response.status_code == 200
-        assert b'permissão' in response.data.lower() or b'não tem' in response.data.lower()
+        assert 'permissão' in response.data.decode().lower() or 'não tem' in response.data.decode().lower()
     
     def test_admin_can_create_user(self, client):
         """Teste 2.8: Usuário admin consegue criar novo usuário"""
@@ -168,7 +168,7 @@ class TestAdminAccess:
         response = client.get('/noticias/admin', follow_redirects=True)
         
         assert response.status_code == 200
-        assert b'permissão' in response.data.lower() or b'não tem' in response.data.lower()
+        assert 'permissão' in response.data.decode().lower() or 'não tem' in response.data.decode().lower()
     
     def test_admin_can_access_news_admin(self, client):
         """Teste 2.10: Usuário admin consegue acessar gerenciamento de notícias"""

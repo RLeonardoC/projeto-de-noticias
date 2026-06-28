@@ -32,11 +32,13 @@ def app():
     with app.app_context():
         db.create_all()
         
-        # Criar usuário admin
-        admin = User(nome='Admin Teste', email='admin@e2e.com', tipo='admin', ativo=True)
-        admin.set_password('admin123')
-        db.session.add(admin)
-        db.session.commit()
+        # Criar usuário admin (verificar se já existe)
+        admin = User.query.filter_by(email='admin@e2e.com').first()
+        if not admin:
+            admin = User(nome='Admin Teste', email='admin@e2e.com', tipo='admin', ativo=True)
+            admin.set_password('admin123')
+            db.session.add(admin)
+            db.session.commit()
         
         yield app
         
@@ -131,7 +133,8 @@ class TestEndToEnd:
         titulo_field.send_keys("Notícia de Teste E2E")
         
         data_field = driver.find_element(By.ID, "data_noticia")
-        data_field.send_keys("05212026")  # Formato: MMDDYYYY
+        # Usar JavaScript para preencher a data (mais confiável)
+        driver.execute_script("arguments[0].value = '2026-06-27'", data_field)
         
         texto_field = driver.find_element(By.ID, "texto")
         texto_field.send_keys("Esta é uma notícia de teste criada automaticamente pelos testes end-to-end.")

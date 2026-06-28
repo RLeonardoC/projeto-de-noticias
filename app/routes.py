@@ -182,6 +182,13 @@ def listar_noticias():
     noticias = News.query.filter_by(ativo=True).order_by(News.data_noticia.desc()).all()
     return render_template('news/listar.html', noticias=noticias)
 
+@news_bp.route('/minhas')
+@login_required
+def minhas_noticias():
+    """Usuário comum vê suas próprias notícias"""
+    noticias = News.query.filter_by(user_id=current_user.id).order_by(News.data_noticia.desc()).all()
+    return render_template('news/minhas_noticias.html', noticias=noticias)
+
 @news_bp.route('/<int:noticia_id>')
 def detalhes_noticia(noticia_id):
     """Detalhes de uma notícia"""
@@ -193,9 +200,8 @@ def detalhes_noticia(noticia_id):
 
 @news_bp.route('/novo', methods=['GET', 'POST'])
 @login_required
-@admin_required
 def nova_noticia():
-    """Criar nova notícia (apenas admin)"""
+    """Criar nova notícia (admin E usuário comum)"""
     if request.method == 'POST':
         titulo = request.form.get('titulo', '').strip()
         data_noticia = request.form.get('data_noticia')
@@ -220,19 +226,25 @@ def nova_noticia():
                 file.save(os.path.join('app/static/images', filename))
                 imagem = filename
         
-        # Criar notícia
+        # Criar notícia com user_id do usuário logado
         noticia = News(
             titulo=titulo,
             data_noticia=datetime.strptime(data_noticia, '%Y-%m-%d').date(),
             texto=texto,
-            imagem=imagem
+            imagem=imagem,
+            user_id=current_user.id  # ADICIONADO: Quem criou
         )
         
         db.session.add(noticia)
         db.session.commit()
         
         flash('Notícia criada com sucesso!', 'success')
-        return redirect(url_for('news.listar_noticias_admin'))
+        
+        # Se for admin, redireciona para admin list. Se for comum, redireciona para suas notícias
+        if current_user.is_admin():
+            return redirect(url_for('news.listar_noticias_admin'))
+        else:
+            return redirect(url_for('news.minhas_noticias'))
     
     return render_template('news/nova_noticia.html')
 
@@ -246,10 +258,14 @@ def listar_noticias_admin():
 
 @news_bp.route('/<int:noticia_id>/editar', methods=['GET', 'POST'])
 @login_required
-@admin_required
 def editar_noticia(noticia_id):
-    """Editar notícia"""
+    """Editar notícia (criador ou admin)"""
     noticia = News.query.get_or_404(noticia_id)
+    
+    # Verificar permissão: apenas o criador ou admin podem editar
+    if noticia.user_id != current_user.id and not current_user.is_admin():
+        flash('Você não tem permissão para editar esta notícia.', 'error')
+        return redirect(url_for('news.listar_noticias'))
     
     if request.method == 'POST':
         noticia.titulo = request.form.get('titulo', '').strip()
@@ -274,26 +290,41 @@ def editar_noticia(noticia_id):
         
         db.session.commit()
         flash('Notícia atualizada com sucesso!', 'success')
-        return redirect(url_for('news.listar_noticias_admin'))
+        
+        # Redirecionar para o lugar certo
+        if current_user.is_admin():
+            return redirect(url_for('news.listar_noticias_admin'))
+        else:
+            return redirect(url_for('news.minhas_noticias'))
     
     return render_template('news/editar_noticia.html', noticia=noticia)
 
 @news_bp.route('/<int:noticia_id>/desativar', methods=['POST'])
 @login_required
-@admin_required
 def desativar_noticia(noticia_id):
-    """Desativar notícia (soft delete)"""
+    """Desativar notícia (criador ou admin)"""
     noticia = News.query.get_or_404(noticia_id)
+    
+    # Verificar permissão: apenas o criador ou admin podem desativar
+    if noticia.user_id != current_user.id and not current_user.is_admin():
+        flash('Você não tem permissão para desativar esta notícia.', 'error')
+        return redirect(url_for('news.listar_noticias'))
+    
     noticia.ativo = False
     db.session.commit()
     flash('Notícia desativada com sucesso!', 'success')
-    return redirect(url_for('news.listar_noticias_admin'))
+    
+    # Redirecionar para o lugar certo
+    if current_user.is_admin():
+        return redirect(url_for('news.listar_noticias_admin'))
+    else:
+        return redirect(url_for('news.minhas_noticias'))
 
 @news_bp.route('/<int:noticia_id>/ativar', methods=['POST'])
 @login_required
 @admin_required
 def ativar_noticia(noticia_id):
-    """Ativar notícia"""
+    """Ativar notícia (admin only - pode reativar de qualquer um)"""
     noticia = News.query.get_or_404(noticia_id)
     noticia.ativo = True
     db.session.commit()

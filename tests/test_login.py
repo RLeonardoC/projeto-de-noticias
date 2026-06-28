@@ -80,7 +80,7 @@ class TestLogin:
         }, follow_redirects=True)
         
         assert response.status_code == 200
-        assert b'Senha incorreta' in response.data
+        assert 'Senha incorreta' in response.data.decode()
     
     def test_login_with_nonexistent_email(self, client):
         """
@@ -93,7 +93,7 @@ class TestLogin:
         }, follow_redirects=True)
         
         assert response.status_code == 200
-        assert b'Email não encontrado' in response.data
+        assert 'Email não encontrado' in response.data.decode()
     
     def test_login_with_inactive_user(self, client):
         """
@@ -106,7 +106,7 @@ class TestLogin:
         }, follow_redirects=True)
         
         assert response.status_code == 200
-        assert b'desativado' in response.data or b'Usuário desativado' in response.data
+        assert 'desativado' in response.data.decode() or 'Usuário desativado' in response.data.decode()
     
     def test_login_missing_email(self, client):
         """Testa login sem email"""
@@ -116,7 +116,7 @@ class TestLogin:
         }, follow_redirects=True)
         
         assert response.status_code == 200
-        assert b'obrigatório' in response.data.lower()
+        assert 'obrigatório' in response.data.decode().lower()
     
     def test_login_missing_password(self, client):
         """Testa login sem senha"""
@@ -126,7 +126,7 @@ class TestLogin:
         }, follow_redirects=True)
         
         assert response.status_code == 200
-        assert b'obrigatório' in response.data.lower()
+        assert 'obrigatório' in response.data.decode().lower()
     
     def test_logout(self, client):
         """Testa logout do usuário"""

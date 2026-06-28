@@ -47,8 +47,12 @@ class News(db.Model):
     texto = db.Column(db.Text, nullable=False)
     imagem = db.Column(db.String(255))
     ativo = db.Column(db.Boolean, default=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Quem criou
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    # Relacionamento com usuário
+    user = db.relationship('User', backref='noticias')
     
     def __repr__(self):
         return f'<News {self.titulo}>'
